@@ -1,7 +1,7 @@
 package supportClasses;
 
-import actions.Action;
-import actions.RockSpawnAction;
+import actions.*;
+import entities.unalive.Grass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +20,26 @@ public class Simulation {
     }
 
     public void nextTurn() {
-
+        for (Action action : turnActions) {
+            action.execute(worldMap);
+        }
 
     }
 
     public void startSimulation() {
+        initActions.add(new RockSpawnAction());
+        initActions.add(new TreeSpawnAction());
+        initActions.add(new GrassSpawnAction());
+        initActions.add(new HerbivoreSpawnAction());
+        initActions.add(new PredatorSpawnAction());
 
+        turnActions.add(new CreatureMoveAction());
+        turnActions.add(new GrassSpawnAction());
+        turnActions.add(new HerbivoreSpawnAction());
+
+        for (Action action : initActions) {
+            action.execute(worldMap);
+        }
     }
 
     public void pauseSimulation() {

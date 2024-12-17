@@ -10,15 +10,14 @@ import java.util.Random;
 public abstract class SpawnAction extends Action {
     private Random random = new Random();
 
-    public void spawn(WorldMap worldMap) {
+    @Override
+    public void execute(WorldMap worldMap) {
         int counter = 0;
-        while (counter < 5) {
+        while (counter <= getMaximumQuantity(worldMap)) {
             worldMap.put(getRandomEmptyPlace(random, worldMap), createNewEntity());
+            counter++;
         }
     }
-
-    public abstract Entity createNewEntity();
-
 
     protected Coordinate getRandomEmptyPlace(Random random, WorldMap worldMap) {
         while (true) {
@@ -28,4 +27,13 @@ public abstract class SpawnAction extends Action {
             }
         }
     }
+
+    public int getMaximumQuantity(WorldMap worldMap) {
+        return (int) Math.ceil(worldMap.getRows() * worldMap.getColumns() * getMaxQuantityMultiplier());
+    }
+
+    public abstract double getMaxQuantityMultiplier();
+
+    public abstract Entity createNewEntity();
+
 }
