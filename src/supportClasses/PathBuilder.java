@@ -18,10 +18,10 @@ public class PathBuilder {
 
     private Set<Coordinate> getNearestLocations(Coordinate coordinate) {
         Set<Coordinate> nearestLocations = new HashSet<>();
-        nearestLocations.add(new Coordinate(coordinate.getRow() + 1, coordinate.getColumn() + 1));
-        nearestLocations.add(new Coordinate(coordinate.getRow() + 1, coordinate.getColumn() - 1));
-        nearestLocations.add(new Coordinate(coordinate.getRow() - 1, coordinate.getColumn() + 1));
-        nearestLocations.add(new Coordinate(coordinate.getRow() - 1, coordinate.getColumn() - 1));
+        nearestLocations.add(new Coordinate(coordinate.getRow() + 1, coordinate.getColumn()));
+        nearestLocations.add(new Coordinate(coordinate.getRow() - 1, coordinate.getColumn()));
+        nearestLocations.add(new Coordinate(coordinate.getRow(), coordinate.getColumn() + 1));
+        nearestLocations.add(new Coordinate(coordinate.getRow(), coordinate.getColumn() - 1));
         return nearestLocations;
     }
 

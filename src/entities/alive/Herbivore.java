@@ -27,15 +27,16 @@ public class Herbivore extends Creature {
             if (path.isEmpty()) {
                 break;
             }
-            path.removeLast();
-//        if (pathToTarget.getLast().equals(targetNode)) {
+
+//            path.removeLast();
+//        if (path.getLast().equals(targetNode)) {
 //            eatGrass();
 //            takeStep();
 //            setGrass(getMaxGrass());
 //            continue;
 //        }
 //        takeStep();
-//    }
+    }
 
         }
 
@@ -54,7 +55,7 @@ public class Herbivore extends Creature {
 //        takeStep();
 //    }
     }
-}
+
 
 
 
