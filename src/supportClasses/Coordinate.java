@@ -3,6 +3,15 @@ package supportClasses;
 public class Coordinate {
     private int row;
     private int column;
+    private double cost;
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
 
     public Coordinate(int row, int column) {
         this.row = row;

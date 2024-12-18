@@ -1,7 +1,6 @@
 package actions;
 
 import entities.Entity;
-import entities.unalive.Rock;
 import supportClasses.Coordinate;
 import supportClasses.WorldMap;
 
@@ -14,16 +13,17 @@ public abstract class SpawnAction extends Action {
     public void execute(WorldMap worldMap) {
         int counter = 0;
         while (counter <= getMaximumQuantity(worldMap)) {
-            worldMap.put(getRandomEmptyPlace(random, worldMap), createNewEntity());
+            Coordinate coordinate = getRandomEmptyPlace(random, worldMap);
+            worldMap.put(coordinate, createNewEntity(coordinate));
             counter++;
         }
     }
 
     protected Coordinate getRandomEmptyPlace(Random random, WorldMap worldMap) {
         while (true) {
-            Coordinate coordinate = new Coordinate(random.nextInt(worldMap.getRows()), random.nextInt(worldMap.getColumns()));
-            if (worldMap.isEmpty(coordinate)) {
-                return coordinate;
+            Coordinate randomCoordinate = new Coordinate(random.nextInt(worldMap.getRows()), random.nextInt(worldMap.getColumns()));
+            if (worldMap.isEmpty(randomCoordinate)) {
+                return randomCoordinate;
             }
         }
     }
@@ -34,6 +34,6 @@ public abstract class SpawnAction extends Action {
 
     public abstract double getMaxQuantityMultiplier();
 
-    public abstract Entity createNewEntity();
+    public abstract Entity createNewEntity(Coordinate coordinate);
 
 }

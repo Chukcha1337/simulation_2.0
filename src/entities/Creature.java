@@ -1,6 +1,7 @@
 package entities;
 
 import entities.unalive.Grass;
+import supportClasses.WorldMap;
 
 public abstract class Creature extends Entity {
     protected int health;
@@ -8,6 +9,10 @@ public abstract class Creature extends Entity {
     protected int levelOfHunger;
     protected boolean isWishToReproduce;
     protected Class<?> food;
+
+    public Creature(int x, int y) {
+        super(x,y);
+    }
 
     public void reduceHealth(int damage) {
         health -= damage;
@@ -33,5 +38,5 @@ public abstract class Creature extends Entity {
         return food;
     }
 
-    protected abstract void makeMove();
+    public abstract void makeMove(WorldMap worldMap);
 }

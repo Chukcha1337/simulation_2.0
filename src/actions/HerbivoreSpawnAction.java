@@ -2,7 +2,7 @@ package actions;
 
 import entities.Entity;
 import entities.alive.Herbivore;
-import supportClasses.WorldMap;
+import supportClasses.Coordinate;
 
 public class HerbivoreSpawnAction extends SpawnAction {
     private final static double MAX_HERBIVORES_MULTIPLIER = 0.05;
@@ -13,8 +13,8 @@ public class HerbivoreSpawnAction extends SpawnAction {
     }
 
     @Override
-    public Entity createNewEntity() {
-        return new Herbivore();
+    public Entity createNewEntity(Coordinate coordinate) {
+        return new Herbivore(coordinate.getColumn(), coordinate.getRow());
     }
 }
 

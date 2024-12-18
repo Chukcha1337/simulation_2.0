@@ -2,6 +2,7 @@ package actions;
 
 import entities.Entity;
 import entities.unalive.Grass;
+import supportClasses.Coordinate;
 
 public class GrassSpawnAction extends SpawnAction {
     private final static double MAX_GRASS_MULTIPLIER = 0.06;
@@ -12,7 +13,7 @@ public class GrassSpawnAction extends SpawnAction {
     }
 
     @Override
-    public Entity createNewEntity() {
-        return new Grass();
+    public Entity createNewEntity(Coordinate coordinate) {
+        return new Grass(coordinate.getColumn(), coordinate.getRow());
     }
 }

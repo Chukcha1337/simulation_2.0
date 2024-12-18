@@ -2,6 +2,7 @@ package actions;
 
 import entities.Entity;
 import entities.unalive.Rock;
+import supportClasses.Coordinate;
 import supportClasses.WorldMap;
 
 public class RockSpawnAction extends SpawnAction {
@@ -13,8 +14,8 @@ public class RockSpawnAction extends SpawnAction {
     }
 
     @Override
-    public Entity createNewEntity() {
-        return new Rock();
+    public Entity createNewEntity(Coordinate coordinate) {
+        return new Rock(coordinate.getColumn(), coordinate.getRow());
     }
 
 

@@ -1,10 +1,13 @@
 package entities.alive;
 import entities.Creature;
 import entities.unalive.Grass;
+import supportClasses.PathBuilder;
+import supportClasses.WorldMap;
 
 public class Herbivore extends Creature {
 
-    public Herbivore() {
+    public Herbivore(int x, int y) {
+        super(x, y);
         health = 4;
         speed = 3;
         levelOfHunger = 1;
@@ -13,7 +16,14 @@ public class Herbivore extends Creature {
     }
 
     @Override
-    protected void makeMove() {
+    public void makeMove(WorldMap worldMap) {
+        PathBuilder pathBuilder = new PathBuilder(worldMap, this);
+        pathBuilder.getPath();
+
+
+
+
+
 //        getPath();
 //        if (!isPathExist) {
 //            break;
