@@ -15,9 +15,14 @@ public class TargetSetter {
         this.worldMap = worldMap;
         this.creature = creature;
         AllTargets = new HashSet<>();
+        locateAllTargets();
     }
 
-    public void locateAllTargets() {
+    public void removeTagret (Coordinate target) {
+        AllTargets.remove(target);
+    }
+
+    private void locateAllTargets() {
         Class<?> target = chooseOfTarget();
         for (Entity entity : worldMap.getAll()) {
             if (entity.getClass().equals(target)) {
@@ -26,15 +31,12 @@ public class TargetSetter {
         }
     }
 
-
-
-    public Coordinate setTarget(Coordinate creatureCurrentCoordinate, Set<Coordinate> nonReachableTargets) {
-        locateAllTargets();
+    public Coordinate setTarget(Coordinate creatureCurrentCoordinate) {
         double ShortestDistance = worldMap.getMapMaxDistance();
        Coordinate targetCoordinate = creatureCurrentCoordinate;
         for (Coordinate coordinate : AllTargets) {
             double distanceToCurrentTarget = getShortestPathDistance(creatureCurrentCoordinate, coordinate);
-            if (distanceToCurrentTarget < ShortestDistance && !nonReachableTargets.contains(coordinate)) {
+            if (distanceToCurrentTarget < ShortestDistance) {
                 ShortestDistance = distanceToCurrentTarget;
                 targetCoordinate = coordinate;
             }
@@ -46,14 +48,11 @@ public class TargetSetter {
         return Math.sqrt((Math.pow(firstCoordinate.getColumn() - secondCoordinate.getColumn(), 2) + Math.pow(firstCoordinate.getRow() - secondCoordinate.getRow(), 2)));
     }
 
-    public Class<?> chooseOfTarget() {
+    private Class<?> chooseOfTarget() {
         if (creature.isWishToReproduce()) {
             return creature.getClass();
         }
         return creature.getFood();
     }
-
-    ;
-
 
 }

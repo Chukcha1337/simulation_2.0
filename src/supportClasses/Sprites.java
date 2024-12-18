@@ -12,6 +12,7 @@ public enum Sprites {
     Sprites(String sprite) {
         this.sprite = sprite;
     }
+
     public String getSprite() {
         return sprite;
     }

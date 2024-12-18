@@ -11,5 +11,7 @@ public class Starter {
         Simulation simulation = new Simulation(worldMap, mapPrinter);
         simulation.startSimulation();
         mapPrinter.printMap();
+        simulation.nextTurn();
+        mapPrinter.printMap();
     }
 }

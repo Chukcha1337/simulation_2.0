@@ -1,7 +1,5 @@
 package supportClasses;
-
 import entities.Creature;
-
 import java.util.*;
 
 
@@ -9,13 +7,8 @@ public class PathBuilder {
     private final TargetSetter targetSetter;
     private final WorldMap worldMap;
     private final Creature creature;
-    private final Set<Coordinate> nonReachableTargets = new HashSet<>();
-    private final Set<Coordinate> reachableLocations = new LinkedHashSet<>();
-    private Coordinate coordinateToCheck;
-    private Coordinate potentialCoordinateToCheck;
-    private final Set<Coordinate> exploredLocations = new LinkedHashSet<>();
-    private final Set<Coordinate> reachableFromHere = new LinkedHashSet<>();
-    private final List<Coordinate> pathToTarget = new LinkedList<>();
+    private final Set<Coordinate> reachableLocations = new HashSet<>();
+    private final List<Coordinate> exploredLocations = new LinkedList<>();
 
     public PathBuilder(WorldMap worldMap, Creature creature) {
         this.worldMap = worldMap;
@@ -23,75 +16,92 @@ public class PathBuilder {
         targetSetter = new TargetSetter(worldMap, creature);
     }
 
-    public Set<Coordinate> getPath() {
-        Set<Coordinate> path = new LinkedHashSet<>();
-        Coordinate start = worldMap.getCoordinate(creature);
-        Coordinate target = targetSetter.setTarget(start, nonReachableTargets);
-        if (target == start) {
-            // придумать логику
+    private Set<Coordinate> getNearestLocations(Coordinate coordinate) {
+        Set<Coordinate> nearestLocations = new HashSet<>();
+        nearestLocations.add(new Coordinate(coordinate.getRow() + 1, coordinate.getColumn() + 1));
+        nearestLocations.add(new Coordinate(coordinate.getRow() + 1, coordinate.getColumn() - 1));
+        nearestLocations.add(new Coordinate(coordinate.getRow() - 1, coordinate.getColumn() + 1));
+        nearestLocations.add(new Coordinate(coordinate.getRow() - 1, coordinate.getColumn() - 1));
+        return nearestLocations;
+    }
+
+    public List<Coordinate> getPath() {
+        List<Coordinate> path = new LinkedList<>();
+        while (true) {
+            Coordinate start = worldMap.getCoordinate(creature);
+            Coordinate target = targetSetter.setTarget(start);
+            if (target.equals(start)) {
+                break;
+            }
+            reachableLocations.add(start);
+            path = createPathToTarget(start, target);
+            if (path.isEmpty()) {
+                targetSetter.removeTagret(target);
+                continue;
+            }
+            break;
         }
-        reachableLocations.add(start);
-        createPathToTarget(target);
-
-
         return path;
     }
 
-    private void createPathToTarget(Coordinate target) {
+    private List<Coordinate> createPathToTarget(Coordinate start, Coordinate target) {
+        List<Coordinate> path = new LinkedList<>();
         while (!reachableLocations.isEmpty()) {
-            getCoordinateToCheck(target);
+            Coordinate coordinateToCheck = getCoordinateToCheck(target);
             if (coordinateToCheck.equals(target)) {
-                setPathToTarget(target);
+                path = getPathToTarget(start, target);
                 break;
             }
-//            prepareCollectionsToAddition();
-            for (int column = -1; column <= 1; column++) {
-                for (int row = -1; row <= 1; row++) {
-                    if (isCoordinateValid(row, column)) {
-                        setPotentialCoordinate(row, column);
-                        if (worldMap.isNonValid(potentialCoordinateToCheck)) {
-                            continue;
-                        }
-                        if (potentialCoordinateToCheck.equals(target) || isCoordinateEmptyAndNew()) {
-                            reachableFromHere.add(potentialCoordinateToCheck);
-                        }
-
-                    }
+            reachableLocations.remove(coordinateToCheck);
+            exploredLocations.add(coordinateToCheck);
+            for (Coordinate coordinate : getNearestLocations(coordinateToCheck)) {
+                if (worldMap.isNonValid(coordinate)) {
+                    continue;
+                }
+                if (coordinate.equals(target) || isCoordinateEmptyAndNew(coordinate)) {
+                    reachableLocations.add(coordinate);
                 }
             }
-            setLocations()
-
-
         }
+        return path;
     }
 
-    private void setLocations() {
-        for (Coordinate coordinate : reachableFromHere) {
-            if (!reachableLocations.contains(coordinate)) {
-                node.setPrevious(nodeBeingChecked);
-                reachableLocations.add(node);
+    private boolean isCoordinateEmptyAndNew(Coordinate coordinate) {
+        return worldMap.isEmpty(coordinate) && !exploredLocations.contains(coordinate);
+    }
+
+    private boolean isCloseToStep(Coordinate from, Coordinate to) {
+        return Math.abs(from.getRow() - to.getRow()) + Math.abs(from.getColumn() - to.getColumn()) == 1;
+    }
+
+    private List<Coordinate> getPathToTarget(Coordinate start, Coordinate target) {
+        List<Coordinate> path = new LinkedList<>();
+        path.add(target);
+        while (!exploredLocations.isEmpty()) {
+            if (isCloseToStep(path.getLast(), exploredLocations.getLast())) {
+                path.add(exploredLocations.getLast());
+                exploredLocations.removeLast();
+            } else {
+                double maxDistance = worldMap.getMapMaxDistance();
+                Coordinate next = null;
+                for (Coordinate coordinate : getNearestLocations(path.getLast())) {
+                    if (exploredLocations.contains(coordinate)) {
+                        double distance = targetSetter.getShortestPathDistance(coordinate, start);
+                        if (distance < maxDistance) {
+                            maxDistance = distance;
+                            next = coordinate;
+                        }
+                    }
+                }
+                path.add(next);
             }
         }
+        return path;
     }
 
-    private boolean isCoordinateEmptyAndNew() {
-        return worldMap.isEmpty(potentialCoordinateToCheck) && !exploredLocations.contains(potentialCoordinateToCheck);
-    }
-
-    private void setPotentialCoordinate(int row, int column) {
-        potentialCoordinateToCheck = new Coordinate(coordinateToCheck.getRow() + row, coordinateToCheck.getColumn() + column);
-    }
-
-    private boolean isCoordinateValid(int row, int column) {
-        return Math.abs(row) + Math.abs(column) == 1;
-    }
-
-    private void setPathToTarget(Coordinate target) {
-
-    }
-
-    private void getCoordinateToCheck(Coordinate target) {
+    private Coordinate getCoordinateToCheck(Coordinate target) {
         double maxDistance = worldMap.getMapMaxDistance();
+        Coordinate coordinateToCheck = null;
         for (Coordinate coordinate : reachableLocations) {
             if (coordinate.equals(target)) {
                 coordinateToCheck = coordinate;
@@ -103,6 +113,6 @@ public class PathBuilder {
                 coordinateToCheck = coordinate;
             }
         }
+        return coordinateToCheck;
     }
-
 }

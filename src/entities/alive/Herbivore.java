@@ -1,8 +1,11 @@
 package entities.alive;
 import entities.Creature;
 import entities.unalive.Grass;
+import supportClasses.Coordinate;
 import supportClasses.PathBuilder;
 import supportClasses.WorldMap;
+
+import java.util.List;
 
 public class Herbivore extends Creature {
 
@@ -18,10 +21,23 @@ public class Herbivore extends Creature {
     @Override
     public void makeMove(WorldMap worldMap) {
         PathBuilder pathBuilder = new PathBuilder(worldMap, this);
-        pathBuilder.getPath();
+        int stepsLeft = this.getSpeed();
+        while (stepsLeft != 0) {
+            List<Coordinate> path = pathBuilder.getPath();
+            if (path.isEmpty()) {
+                break;
+            }
+            path.removeLast();
+//        if (pathToTarget.getLast().equals(targetNode)) {
+//            eatGrass();
+//            takeStep();
+//            setGrass(getMaxGrass());
+//            continue;
+//        }
+//        takeStep();
+//    }
 
-
-
+        }
 
 
 //        getPath();
@@ -38,10 +54,11 @@ public class Herbivore extends Creature {
 //        takeStep();
 //    }
     }
-
-
-
-
-
-
 }
+
+
+
+
+
+
+

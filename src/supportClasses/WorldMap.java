@@ -56,11 +56,13 @@ public class WorldMap {
     public boolean isEmpty(Coordinate coordinate) {
         return !WORLD_MAP.containsKey(coordinate);
     };
+
     public boolean isNonValid(Coordinate coordinate) {
         return (coordinate.getRow() < 0 ||
                 coordinate.getRow() >= ROWS ||
                 coordinate.getColumn() < 0 ||
                 coordinate.getColumn() >= COLUMNS);
     };
+
 }
 
