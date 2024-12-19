@@ -2,6 +2,7 @@ package actions;
 
 import entities.Creature;
 import entities.Entity;
+import entities.alive.Herbivore;
 import supportClasses.WorldMap;
 
 
@@ -9,7 +10,7 @@ public class CreatureMoveAction extends Action {
     @Override
     public void execute(WorldMap worldMap) {
         for (Entity entity : worldMap.getAll()) {
-            if (entity instanceof Creature) {
+            if (entity instanceof Creature && ((Creature) entity).isAlive()){
                 ((Creature) entity).makeMove(worldMap);
             }
         }

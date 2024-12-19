@@ -5,7 +5,13 @@ import entities.alive.Predator;
 import supportClasses.Coordinate;
 
 public class PredatorSpawnAction extends SpawnAction {
-    private final static double MAX_PREDATORS_MULTIPLIER = 0.01;
+    private final static double MAX_PREDATORS_MULTIPLIER = 0.004;
+
+    @Override
+    protected Class<? extends Entity> getCurrentEntityClass() {
+        return Predator.class;
+    }
+
     @Override
     public double getMaxQuantityMultiplier() {
         return MAX_PREDATORS_MULTIPLIER;

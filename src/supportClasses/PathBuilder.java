@@ -16,17 +16,19 @@ public class PathBuilder {
         targetSetter = new TargetSetter(worldMap, creature);
     }
 
-    private Set<Coordinate> getNearestLocations(Coordinate coordinate) {
-        Set<Coordinate> nearestLocations = new HashSet<>();
-        nearestLocations.add(new Coordinate(coordinate.getRow() + 1, coordinate.getColumn()));
-        nearestLocations.add(new Coordinate(coordinate.getRow() - 1, coordinate.getColumn()));
-        nearestLocations.add(new Coordinate(coordinate.getRow(), coordinate.getColumn() + 1));
-        nearestLocations.add(new Coordinate(coordinate.getRow(), coordinate.getColumn() - 1));
-        return nearestLocations;
-    }
+//    private Set<Coordinate> getNearestLocations(Coordinate coordinate) {
+//        Set<Coordinate> nearestLocations = new HashSet<>();
+//        nearestLocations.add(new Coordinate(coordinate.getRow() + 1, coordinate.getColumn()));
+//        nearestLocations.add(new Coordinate(coordinate.getRow() - 1, coordinate.getColumn()));
+//        nearestLocations.add(new Coordinate(coordinate.getRow(), coordinate.getColumn() + 1));
+//        nearestLocations.add(new Coordinate(coordinate.getRow(), coordinate.getColumn() - 1));
+//        return nearestLocations;
+//    }
 
     public List<Coordinate> getPath() {
         List<Coordinate> path = new LinkedList<>();
+        reachableLocations.clear();
+        exploredLocations.clear();
         while (true) {
             Coordinate start = worldMap.getCoordinate(creature);
             Coordinate target = targetSetter.setTarget(start);
@@ -54,7 +56,7 @@ public class PathBuilder {
             }
             reachableLocations.remove(coordinateToCheck);
             exploredLocations.add(coordinateToCheck);
-            for (Coordinate coordinate : getNearestLocations(coordinateToCheck)) {
+            for (Coordinate coordinate : worldMap.getNearestLocations(coordinateToCheck)) {
                 if (worldMap.isNonValid(coordinate)) {
                     continue;
                 }
@@ -77,14 +79,14 @@ public class PathBuilder {
     private List<Coordinate> getPathToTarget(Coordinate start, Coordinate target) {
         List<Coordinate> path = new LinkedList<>();
         path.add(target);
-        while (!exploredLocations.isEmpty()) {
+        while (!exploredLocations.isEmpty() || path.getLast().equals(target)) {
             if (isCloseToStep(path.getLast(), exploredLocations.getLast())) {
                 path.add(exploredLocations.getLast());
                 exploredLocations.removeLast();
             } else {
                 double maxDistance = worldMap.getMapMaxDistance();
                 Coordinate next = null;
-                for (Coordinate coordinate : getNearestLocations(path.getLast())) {
+                for (Coordinate coordinate : worldMap.getNearestLocations(path.getLast())) {
                     if (exploredLocations.contains(coordinate)) {
                         double distance = targetSetter.getShortestPathDistance(coordinate, start);
                         if (distance < maxDistance) {
@@ -92,6 +94,9 @@ public class PathBuilder {
                             next = coordinate;
                         }
                     }
+                }
+                while (exploredLocations.contains(next)) {
+                    exploredLocations.removeLast();
                 }
                 path.add(next);
             }

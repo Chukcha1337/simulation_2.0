@@ -1,5 +1,6 @@
 package supportClasses;
 
+import entities.Creature;
 import entities.Entity;
 import entities.alive.Herbivore;
 import entities.alive.Predator;
@@ -9,7 +10,8 @@ import entities.unalive.Tree;
 
 public class MapPrinter {
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_GREEN_BACKGROUND = "\033[0;102m";
     private final WorldMap worldMap;
 
     public MapPrinter(WorldMap worldMap) {
@@ -29,24 +31,24 @@ public class MapPrinter {
                 }
             }
             System.out.println(line);
-        }
+        };
     }
 
     private String getEntitySprite(Entity entity) {
         if (entity instanceof Herbivore) {
-            return ANSI_GREEN_BACKGROUND + Sprites.HERBIVORE.getSprite() + ANSI_RESET;
+            return ANSI_GREEN_BACKGROUND + ANSI_BLACK + ((Creature) entity).getHealth() +Sprites.HERBIVORE.getSprite() + ((Herbivore) entity).showAim() + ANSI_RESET;
         }
         if (entity instanceof Predator) {
-            return ANSI_GREEN_BACKGROUND + Sprites.PREDATOR.getSprite() + ANSI_RESET;
+            return ANSI_GREEN_BACKGROUND + ANSI_BLACK + ((Creature) entity).getHealth() + Sprites.PREDATOR.getSprite() + ((Predator) entity).showAim() + ANSI_RESET;
         }
         if (entity instanceof Rock) {
-            return ANSI_GREEN_BACKGROUND + Sprites.ROCK.getSprite() + ANSI_RESET;
+            return ANSI_GREEN_BACKGROUND + " " + Sprites.ROCK.getSprite() + " " +ANSI_RESET;
         }
         if (entity instanceof Tree) {
-            return ANSI_GREEN_BACKGROUND + Sprites.TREE.getSprite() + ANSI_RESET;
+            return ANSI_GREEN_BACKGROUND + " " + Sprites.TREE.getSprite() + " " + ANSI_RESET;
         }
         if (entity instanceof Grass) {
-            return ANSI_GREEN_BACKGROUND + Sprites.GRASS.getSprite() + ANSI_RESET;
+            return ANSI_GREEN_BACKGROUND + " " + Sprites.GRASS.getSprite() + " " + ANSI_RESET;
         }
         return " ? ";
     }

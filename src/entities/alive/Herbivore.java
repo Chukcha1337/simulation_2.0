@@ -1,7 +1,11 @@
 package entities.alive;
+import actions.HerbivoreSpawnAction;
+import actions.PredatorSpawnAction;
+import actions.SpawnAction;
 import entities.Creature;
 import entities.unalive.Grass;
 import supportClasses.Coordinate;
+import supportClasses.MapPrinter;
 import supportClasses.PathBuilder;
 import supportClasses.WorldMap;
 
@@ -13,53 +17,36 @@ public class Herbivore extends Creature {
         super(x, y);
         health = 4;
         speed = 3;
-        levelOfHunger = 1;
+        stepsLeft = speed;
+        levelOfHunger = 2;
         isWishToReproduce = false;
+        ateThisTurn = false;
+        isAlive = true;
         this.food = Grass.class;
     }
 
     @Override
-    public void makeMove(WorldMap worldMap) {
-        PathBuilder pathBuilder = new PathBuilder(worldMap, this);
-        int stepsLeft = this.getSpeed();
-        while (stepsLeft != 0) {
-            List<Coordinate> path = pathBuilder.getPath();
-            if (path.isEmpty()) {
-                break;
-            }
-
-//            path.removeLast();
-//        if (path.getLast().equals(targetNode)) {
-//            eatGrass();
-//            takeStep();
-//            setGrass(getMaxGrass());
-//            continue;
-//        }
-//        takeStep();
+    protected void reproduce(WorldMap worldMap) {
+        SpawnAction producer = new HerbivoreSpawnAction();
+        producer.reproduce(worldMap,this);
     }
 
+    @Override
+    protected void eat(WorldMap worldMap, Coordinate coordinate) {
+        takeStep(worldMap, coordinate);
+        if (levelOfHunger > 2) {
+            levelOfHunger -= 2;
+        } else {
+            levelOfHunger = 0;
         }
-
-
-//        getPath();
-//        if (!isPathExist) {
-//            break;
-//        }
-//        pathToTarget.removeLast();
-//        if (pathToTarget.getLast().equals(targetNode)) {
-//            eatGrass();
-//            takeStep();
-//            setGrass(getMaxGrass());
-//            continue;
-//        }
-//        takeStep();
-//    }
+        ateThisTurn = true;
+        if (health <= (MAX_HEALTH - 1)) {
+            recoverHealth(1);
+        }
     }
 
 
 
-
-
-
+}
 
 

@@ -9,6 +9,11 @@ public class TreeSpawnAction extends SpawnAction {
 
 
     @Override
+    protected Class<? extends Entity> getCurrentEntityClass() {
+        return Tree.class;
+    }
+
+    @Override
     public double getMaxQuantityMultiplier() {
         return MAX_TREES_MULTIPLIER;
     }

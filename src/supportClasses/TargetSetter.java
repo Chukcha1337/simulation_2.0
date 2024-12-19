@@ -24,11 +24,25 @@ public class TargetSetter {
 
     private void locateAllTargets() {
         Class<?> target = chooseOfTarget();
+//        if (target.equals(creature.getClass())) {
+//            for (Entity entity : worldMap.getAll()) {
+//                if (entity.getClass().equals(target) && !entity.equals(creature) {
+//                    AllTargets.add(worldMap.getCoordinate(entity));
+//                }
+//            }
+//        }
         for (Entity entity : worldMap.getAll()) {
-            if (entity.getClass().equals(target)) {
+            if (entity.getClass().equals(target) && !entity.equals(creature)) {
                 AllTargets.add(worldMap.getCoordinate(entity));
             }
         }
+
+
+
+
+
+
+
     }
 
     public Coordinate setTarget(Coordinate creatureCurrentCoordinate) {

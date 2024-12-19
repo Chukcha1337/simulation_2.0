@@ -23,6 +23,7 @@ public class Simulation {
         for (Action action : turnActions) {
             action.execute(worldMap);
         }
+        mapPrinter.printMap();
 
     }
 
@@ -35,11 +36,22 @@ public class Simulation {
 
         turnActions.add(new CreatureMoveAction());
         turnActions.add(new GrassSpawnAction());
-        turnActions.add(new HerbivoreSpawnAction());
+//        turnActions.add(new HerbivoreSpawnAction());
+            for (Action action : initActions) {
+                action.execute(worldMap);
+            }
+            int counter = 0;
+            while(true) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                nextTurn();
+                counter++;
+                System.out.println(counter);
+            }
 
-        for (Action action : initActions) {
-            action.execute(worldMap);
-        }
     }
 
     public void pauseSimulation() {

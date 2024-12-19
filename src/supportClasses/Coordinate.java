@@ -4,6 +4,14 @@ public class Coordinate {
     private int row;
     private int column;
 
+    @Override
+    public String toString() {
+        return "Coordinate{" +
+                "row=" + row +
+                ", column=" + column +
+                '}';
+    }
+
     public Coordinate(int row, int column) {
         this.row = row;
         this.column = column;

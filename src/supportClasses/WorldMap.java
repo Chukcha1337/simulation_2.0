@@ -4,9 +4,7 @@ package supportClasses;
 import entities.Entity;
 
 
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class WorldMap {
@@ -52,7 +50,6 @@ public class WorldMap {
         return WORLD_MAP.values().stream().toList();
     };
 
-
     public boolean isEmpty(Coordinate coordinate) {
         return !WORLD_MAP.containsKey(coordinate);
     };
@@ -63,6 +60,15 @@ public class WorldMap {
                 coordinate.getColumn() < 0 ||
                 coordinate.getColumn() >= COLUMNS);
     };
+
+    public Set<Coordinate> getNearestLocations(Coordinate coordinate) {
+        Set<Coordinate> nearestLocations = new HashSet<>();
+        nearestLocations.add(new Coordinate(coordinate.getRow() + 1, coordinate.getColumn()));
+        nearestLocations.add(new Coordinate(coordinate.getRow() - 1, coordinate.getColumn()));
+        nearestLocations.add(new Coordinate(coordinate.getRow(), coordinate.getColumn() + 1));
+        nearestLocations.add(new Coordinate(coordinate.getRow(), coordinate.getColumn() - 1));
+        return nearestLocations;
+    }
 
 }
 
