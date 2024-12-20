@@ -18,16 +18,11 @@ public abstract class Creature extends Entity {
     protected boolean isAlive;
     protected Class<?> food;
 
-    public Creature(int x, int y) {
-        super(x, y);
-
-    }
-
     public boolean isAlive() {
         return isAlive;
     }
 
-    public void kill(Creature creature) {
+    protected void kill(Creature creature) {
         creature.isAlive = false;
     }
 
@@ -43,7 +38,7 @@ public abstract class Creature extends Entity {
         health -= damage;
     }
 
-    public void recoverHealth(int recover) {
+    protected void recoverHealth(int recover) {
         health += recover;
     }
 
@@ -51,12 +46,18 @@ public abstract class Creature extends Entity {
         return health;
     }
 
-    public int getSpeed() {
+    private int getSpeed() {
         return speed;
     }
 
     public boolean isWishToReproduce() {
         return isWishToReproduce;
+    }
+    private void setWishToReproduce(boolean isWishToReproduce) {
+        this.isWishToReproduce = isWishToReproduce;
+    }
+    public void reverseWishToReproduce() {
+        isWishToReproduce = !isWishToReproduce;
     }
 
     public Class<?> getFood() {
@@ -65,7 +66,7 @@ public abstract class Creature extends Entity {
 
     public void makeMove(WorldMap worldMap) {
         if (health < maxHealth) {
-            isWishToReproduce = false;
+            setWishToReproduce(false);
         }
         stepsLeft = this.getSpeed();
         ateThisTurn = false;
@@ -78,15 +79,14 @@ public abstract class Creature extends Entity {
             path.removeLast();
             if (worldMap.isEmpty(path.getLast())) {
                 takeStep(worldMap, path.getLast());
-                continue;
             } else if (worldMap.get(path.getLast()).getClass() == this.food) {
                 eat(worldMap, path.getLast());
-                continue;
-            } else if (worldMap.get(path.getLast()).getClass() == this.getClass() && isWishToReproduce ) {
+                break;
+            } else if (worldMap.get(path.getLast()).getClass() == this.getClass() && isWishToReproduce && ((Creature) worldMap.get(path.getLast())).isWishToReproduce()) {
                 reproduce(worldMap);
                 break;
             }
-            isWishToReproduce = !isWishToReproduce;
+//            else {stepsLeft--;}
 //            System.out.println(path);
 //            MapPrinter mapPrinter = new MapPrinter(worldMap);
 //            mapPrinter.printMap();
@@ -96,10 +96,10 @@ public abstract class Creature extends Entity {
             levelOfHunger++;
         }
         switch (levelOfHunger) {
-            case 0 -> isWishToReproduce = true;
-            case 1, 2, 3 -> isWishToReproduce = false;
+            case 0, 1 -> setWishToReproduce(true);
+            case 2, 3, 4 -> setWishToReproduce(false);
             default -> {
-                isWishToReproduce = false;
+                setWishToReproduce(false);
                 reduceHealth(1);
             }
         }

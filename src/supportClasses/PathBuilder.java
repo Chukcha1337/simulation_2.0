@@ -4,7 +4,7 @@ import java.util.*;
 
 
 public class PathBuilder {
-    private final TargetSetter targetSetter;
+    private TargetSetter targetSetter;
     private final WorldMap worldMap;
     private final Creature creature;
     private final Set<Coordinate> reachableLocations = new HashSet<>();
@@ -13,26 +13,17 @@ public class PathBuilder {
     public PathBuilder(WorldMap worldMap, Creature creature) {
         this.worldMap = worldMap;
         this.creature = creature;
-        targetSetter = new TargetSetter(worldMap, creature);
     }
-
-//    private Set<Coordinate> getNearestLocations(Coordinate coordinate) {
-//        Set<Coordinate> nearestLocations = new HashSet<>();
-//        nearestLocations.add(new Coordinate(coordinate.getRow() + 1, coordinate.getColumn()));
-//        nearestLocations.add(new Coordinate(coordinate.getRow() - 1, coordinate.getColumn()));
-//        nearestLocations.add(new Coordinate(coordinate.getRow(), coordinate.getColumn() + 1));
-//        nearestLocations.add(new Coordinate(coordinate.getRow(), coordinate.getColumn() - 1));
-//        return nearestLocations;
-//    }
 
     public List<Coordinate> getPath() {
         List<Coordinate> path = new LinkedList<>();
         reachableLocations.clear();
         exploredLocations.clear();
+        targetSetter = new TargetSetter(worldMap, creature);
         while (true) {
             Coordinate start = worldMap.getCoordinate(creature);
             Coordinate target = targetSetter.setTarget(start);
-            if (target.equals(start)) {
+            if (target.equals(start) || start == null) {
                 break;
             }
             reachableLocations.add(start);

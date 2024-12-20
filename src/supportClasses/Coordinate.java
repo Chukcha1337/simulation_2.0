@@ -1,8 +1,8 @@
 package supportClasses;
 
 public class Coordinate {
-    private int row;
-    private int column;
+    private final int row;
+    private final int column;
 
     @Override
     public String toString() {

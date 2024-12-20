@@ -1,11 +1,4 @@
 package entities;
 
-public abstract class Entity {
-    protected int x;
-    protected int y;
+public abstract class Entity {}
 
-    public Entity(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}

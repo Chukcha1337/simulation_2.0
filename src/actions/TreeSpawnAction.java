@@ -7,7 +7,6 @@ import supportClasses.Coordinate;
 public class TreeSpawnAction extends SpawnAction {
     private final static double MAX_TREES_MULTIPLIER = 0.03;
 
-
     @Override
     protected Class<? extends Entity> getCurrentEntityClass() {
         return Tree.class;
@@ -20,6 +19,6 @@ public class TreeSpawnAction extends SpawnAction {
 
     @Override
     public Entity createNewEntity(Coordinate coordinate) {
-        return new Tree(coordinate.getColumn(), coordinate.getRow());
+        return new Tree();
     }
 }

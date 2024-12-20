@@ -19,6 +19,6 @@ public class PredatorSpawnAction extends SpawnAction {
 
     @Override
     public Entity createNewEntity(Coordinate coordinate) {
-        return new Predator(coordinate.getColumn(), coordinate.getRow());
+        return new Predator();
     }
 }

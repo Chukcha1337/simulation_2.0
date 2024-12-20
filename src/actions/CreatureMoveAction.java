@@ -2,7 +2,6 @@ package actions;
 
 import entities.Creature;
 import entities.Entity;
-import entities.alive.Herbivore;
 import supportClasses.WorldMap;
 
 

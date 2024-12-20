@@ -7,7 +7,8 @@ public enum Sprites {
     PREDATOR("\uD83D\uDC3A"),
     HERBIVORE("\uD83D\uDC07"),
     EMPTY_PLACE(" \uD83D\uDFE9 ");
-    private String sprite;
+
+    private final String sprite;
 
     Sprites(String sprite) {
         this.sprite = sprite;

@@ -20,6 +20,6 @@ public class GrassSpawnAction extends SpawnAction {
 
     @Override
     public Entity createNewEntity(Coordinate coordinate) {
-        return new Grass(coordinate.getColumn(), coordinate.getRow());
+        return new Grass();
     }
 }

@@ -9,13 +9,12 @@ import supportClasses.WorldMap;
 import java.util.Random;
 
 public class Predator extends Creature {
-    private int attackDamage = 3;
+    private final int attackDamage = 4;
 
-    public Predator(int x, int y) {
-        super(x, y);
+    public Predator() {
         health = 9;
         maxHealth = 9;
-        speed = 4;
+        speed = 3;
         levelOfHunger = 2;
         isWishToReproduce = false;
         ateThisTurn = false;
@@ -32,7 +31,7 @@ public class Predator extends Creature {
     @Override
     protected void eat(WorldMap worldMap, Coordinate coordinate) {
         Random rand = new Random();
-        if (rand.nextInt(10) > 3) {
+        if (rand.nextInt(10) > 4) {
             Herbivore herbivore = (Herbivore) worldMap.get(coordinate);
             herbivore.reduceHealth(attackDamage);
             if (herbivore.getHealth() <= 0) {
@@ -44,8 +43,8 @@ public class Predator extends Creature {
                     levelOfHunger = 0;
                 }
                 ateThisTurn = true;
-                if (health <= (maxHealth - 1)) {
-                    recoverHealth(1);
+                if (health <= (maxHealth - 3)) {
+                    recoverHealth(3);
                 }
             } else stepsLeft--;
         }

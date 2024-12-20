@@ -1,4 +1,5 @@
 package entities.alive;
+
 import actions.HerbivoreSpawnAction;
 import actions.SpawnAction;
 import entities.Creature;
@@ -8,8 +9,7 @@ import supportClasses.WorldMap;
 
 public class Herbivore extends Creature {
 
-    public Herbivore(int x, int y) {
-        super(x, y);
+    public Herbivore() {
         health = 4;
         maxHealth = 4;
         speed = 3;
@@ -40,9 +40,6 @@ public class Herbivore extends Creature {
             recoverHealth(1);
         }
     }
-
-
-
 }
 
 

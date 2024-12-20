@@ -16,7 +16,7 @@ public class WorldMap {
     public WorldMap(int rows, int columns) {
         this.ROWS = rows;
         this.COLUMNS = columns;
-        this.MAX_MAP_DISTANCE = Math.sqrt((Math.pow(rows, 2) + Math.pow(columns, 2)));;
+        this.MAX_MAP_DISTANCE = Math.sqrt((Math.pow(rows, 2) + Math.pow(columns, 2)));
     }
 
     public int getRows() {
@@ -33,33 +33,33 @@ public class WorldMap {
 
     public void put(Coordinate coordinate, Entity entity) {
         WORLD_MAP.put(coordinate,entity);
-    };
+    }
 
     public Entity get(Coordinate coordinate) {
         return WORLD_MAP.get(coordinate);
     }
-    public Entity remove(Coordinate coordinate) {
-        return WORLD_MAP.remove(coordinate);
+    public void remove(Coordinate coordinate) {
+        WORLD_MAP.remove(coordinate);
     }
 
     public Coordinate getCoordinate(Entity entity) {
         return WORLD_MAP.entrySet().stream().filter(e -> e.getValue().equals(entity)).findFirst().get().getKey();
-    };
+    }
 
     public List<Entity> getAll() {
         return WORLD_MAP.values().stream().toList();
-    };
+    }
 
     public boolean isEmpty(Coordinate coordinate) {
         return !WORLD_MAP.containsKey(coordinate);
-    };
+    }
 
     public boolean isNonValid(Coordinate coordinate) {
         return (coordinate.getRow() < 0 ||
                 coordinate.getRow() >= ROWS ||
                 coordinate.getColumn() < 0 ||
                 coordinate.getColumn() >= COLUMNS);
-    };
+    }
 
     public Set<Coordinate> getNearestLocations(Coordinate coordinate) {
         Set<Coordinate> nearestLocations = new HashSet<>();

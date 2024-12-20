@@ -7,7 +7,7 @@ import supportClasses.WorldMap;
 import java.util.Random;
 
 public abstract class SpawnAction extends Action {
-    private Random random = new Random();
+    private final Random random = new Random();
 
     @Override
     public void execute(WorldMap worldMap) {

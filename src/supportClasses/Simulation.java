@@ -45,7 +45,7 @@ public class Simulation {
         mapPrinter.printMap();
             while(true) {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }

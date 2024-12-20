@@ -23,12 +23,17 @@ public class TargetSetter {
     }
 
     private void locateAllTargets() {
+//        AllTargets.clear();
         Class<?> target = chooseOfTarget();
         if (target.equals(creature.getClass())) {
             for (Entity entity : worldMap.getAll()) {
                 if (entity.getClass().equals(target) && !entity.equals(creature) && ((Creature) entity).isWishToReproduce()) {
                     AllTargets.add(worldMap.getCoordinate(entity));
                 }
+            }
+            if (!AllTargets.isEmpty()) {
+                creature.reverseWishToReproduce();
+                target = creature.getFood();
             }
         }
         if (target.equals(creature.getFood())) {
@@ -41,8 +46,12 @@ public class TargetSetter {
     }
 
     public Coordinate setTarget(Coordinate creatureCurrentCoordinate) {
+//        if (AllTargets.isEmpty()) {
+//            creature.reverseWishToReproduce();
+//            locateAllTargets();
+//        }
         double ShortestDistance = worldMap.getMapMaxDistance();
-       Coordinate targetCoordinate = creatureCurrentCoordinate;
+        Coordinate targetCoordinate = creatureCurrentCoordinate;
         for (Coordinate coordinate : AllTargets) {
             double distanceToCurrentTarget = getShortestPathDistance(creatureCurrentCoordinate, coordinate);
             if (distanceToCurrentTarget < ShortestDistance) {

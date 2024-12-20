@@ -12,6 +12,7 @@ public class HerbivoreSpawnAction extends SpawnAction {
     protected Class<? extends Entity> getCurrentEntityClass() {
         return Herbivore.class;
     }
+
     @Override
     public double getMaxQuantityMultiplier() {
         return MAX_HERBIVORES_MULTIPLIER;
@@ -19,7 +20,7 @@ public class HerbivoreSpawnAction extends SpawnAction {
 
     @Override
     public Entity createNewEntity(Coordinate coordinate) {
-        return new Herbivore(coordinate.getColumn(), coordinate.getRow());
+        return new Herbivore();
     }
 }
 
