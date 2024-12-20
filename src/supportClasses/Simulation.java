@@ -37,10 +37,12 @@ public class Simulation {
         turnActions.add(new CreatureMoveAction());
         turnActions.add(new GrassSpawnAction());
 //        turnActions.add(new HerbivoreSpawnAction());
+
             for (Action action : initActions) {
                 action.execute(worldMap);
             }
             int counter = 0;
+        mapPrinter.printMap();
             while(true) {
                 try {
                     Thread.sleep(2000);

@@ -1,16 +1,11 @@
 package entities.alive;
 
-import actions.HerbivoreSpawnAction;
 import actions.PredatorSpawnAction;
 import actions.SpawnAction;
 import entities.Creature;
-import entities.unalive.Grass;
 import supportClasses.Coordinate;
-import supportClasses.MapPrinter;
-import supportClasses.PathBuilder;
 import supportClasses.WorldMap;
 
-import java.util.List;
 import java.util.Random;
 
 public class Predator extends Creature {
@@ -19,6 +14,7 @@ public class Predator extends Creature {
     public Predator(int x, int y) {
         super(x, y);
         health = 9;
+        maxHealth = 9;
         speed = 4;
         levelOfHunger = 2;
         isWishToReproduce = false;
@@ -43,12 +39,12 @@ public class Predator extends Creature {
                 kill(herbivore);
                 takeStep(worldMap, coordinate);
                 if (levelOfHunger > 3) {
-                    levelOfHunger -= 3;
+                    levelOfHunger -= 2;
                 } else {
                     levelOfHunger = 0;
                 }
                 ateThisTurn = true;
-                if (health <= (MAX_HEALTH - 1)) {
+                if (health <= (maxHealth - 1)) {
                     recoverHealth(1);
                 }
             } else stepsLeft--;

@@ -38,7 +38,7 @@ public class PathBuilder {
             reachableLocations.add(start);
             path = createPathToTarget(start, target);
             if (path.isEmpty()) {
-                targetSetter.removeTagret(target);
+                targetSetter.removeTarget(target);
                 continue;
             }
             break;

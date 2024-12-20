@@ -18,31 +18,26 @@ public class TargetSetter {
         locateAllTargets();
     }
 
-    public void removeTagret (Coordinate target) {
+    public void removeTarget(Coordinate target) {
         AllTargets.remove(target);
     }
 
     private void locateAllTargets() {
         Class<?> target = chooseOfTarget();
-//        if (target.equals(creature.getClass())) {
-//            for (Entity entity : worldMap.getAll()) {
-//                if (entity.getClass().equals(target) && !entity.equals(creature) {
-//                    AllTargets.add(worldMap.getCoordinate(entity));
-//                }
-//            }
-//        }
-        for (Entity entity : worldMap.getAll()) {
-            if (entity.getClass().equals(target) && !entity.equals(creature)) {
-                AllTargets.add(worldMap.getCoordinate(entity));
+        if (target.equals(creature.getClass())) {
+            for (Entity entity : worldMap.getAll()) {
+                if (entity.getClass().equals(target) && !entity.equals(creature) && ((Creature) entity).isWishToReproduce()) {
+                    AllTargets.add(worldMap.getCoordinate(entity));
+                }
             }
         }
-
-
-
-
-
-
-
+        if (target.equals(creature.getFood())) {
+            for (Entity entity : worldMap.getAll()) {
+                if (entity.getClass().equals(target) && !entity.equals(creature)) {
+                    AllTargets.add(worldMap.getCoordinate(entity));
+                }
+            }
+        }
     }
 
     public Coordinate setTarget(Coordinate creatureCurrentCoordinate) {

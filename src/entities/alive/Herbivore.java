@@ -1,21 +1,17 @@
 package entities.alive;
 import actions.HerbivoreSpawnAction;
-import actions.PredatorSpawnAction;
 import actions.SpawnAction;
 import entities.Creature;
 import entities.unalive.Grass;
 import supportClasses.Coordinate;
-import supportClasses.MapPrinter;
-import supportClasses.PathBuilder;
 import supportClasses.WorldMap;
-
-import java.util.List;
 
 public class Herbivore extends Creature {
 
     public Herbivore(int x, int y) {
         super(x, y);
         health = 4;
+        maxHealth = 4;
         speed = 3;
         stepsLeft = speed;
         levelOfHunger = 2;
@@ -40,7 +36,7 @@ public class Herbivore extends Creature {
             levelOfHunger = 0;
         }
         ateThisTurn = true;
-        if (health <= (MAX_HEALTH - 1)) {
+        if (health <= (maxHealth - 1)) {
             recoverHealth(1);
         }
     }

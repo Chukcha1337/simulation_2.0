@@ -1,7 +1,5 @@
 package entities;
 
-import actions.HerbivoreSpawnAction;
-import actions.SpawnAction;
 import supportClasses.Coordinate;
 import supportClasses.MapPrinter;
 import supportClasses.PathBuilder;
@@ -11,7 +9,7 @@ import java.util.List;
 
 public abstract class Creature extends Entity {
     protected int health;
-    protected final int MAX_HEALTH = health;
+    protected int maxHealth;
     protected int speed;
     protected int levelOfHunger;
     protected boolean ateThisTurn;
@@ -66,13 +64,13 @@ public abstract class Creature extends Entity {
     }
 
     public void makeMove(WorldMap worldMap) {
-        if (health < MAX_HEALTH) {
+        if (health < maxHealth) {
             isWishToReproduce = false;
         }
         stepsLeft = this.getSpeed();
         ateThisTurn = false;
         PathBuilder pathBuilder = new PathBuilder(worldMap, this);
-        while (stepsLeft != 0) {
+        while (stepsLeft > 0) {
             List<Coordinate> path = pathBuilder.getPath();
             if (path.isEmpty()) {
                 break;
@@ -80,12 +78,15 @@ public abstract class Creature extends Entity {
             path.removeLast();
             if (worldMap.isEmpty(path.getLast())) {
                 takeStep(worldMap, path.getLast());
+                continue;
             } else if (worldMap.get(path.getLast()).getClass() == this.food) {
                 eat(worldMap, path.getLast());
-            } else if (worldMap.get(path.getLast()).getClass() == this.getClass() && isWishToReproduce) {
+                continue;
+            } else if (worldMap.get(path.getLast()).getClass() == this.getClass() && isWishToReproduce ) {
                 reproduce(worldMap);
                 break;
             }
+            isWishToReproduce = !isWishToReproduce;
 //            System.out.println(path);
 //            MapPrinter mapPrinter = new MapPrinter(worldMap);
 //            mapPrinter.printMap();
@@ -106,6 +107,7 @@ public abstract class Creature extends Entity {
             this.isAlive = false;
             worldMap.remove(worldMap.getCoordinate(this));
         }
+//        && ((Creature) worldMap.get(path.getLast())).isWishToReproduce()
 //        if (levelOfHunger < 2) {
 //            isWishToReproduce = true;
 //        } else if (levelOfHunger >= 3) {
